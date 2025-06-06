@@ -12,15 +12,13 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { DebugPanel } from "@/components/debug-panel"
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error, reload } = useChat({
-    onError: (error) => {
-      console.error("Chat error:", error)
-    },
-  })
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [networkStatus, setNetworkStatus] = useState<"online" | "offline">(
     typeof navigator !== "undefined" && navigator.onLine ? "online" : "offline",
   )
+
+  // Use the chat hook with minimal configuration to avoid update loops
+  const { messages, input, handleInputChange, handleSubmit, isLoading, error, reload } = useChat()
 
   // Monitor network status
   useEffect(() => {
@@ -80,7 +78,7 @@ export default function Chat() {
               <AlertTitle>Error</AlertTitle>
               <AlertDescription className="flex flex-col gap-2">
                 <p>{error.message || "Failed to get a response from the AI model."}</p>
-                <Button variant="outline" size="sm" className="self-start" onClick={() => reload()}>
+                <Button variant="outline" size="sm" className="self-start" onClick={reload}>
                   <RefreshCw className="mr-2 h-4 w-4" />
                   Try Again
                 </Button>

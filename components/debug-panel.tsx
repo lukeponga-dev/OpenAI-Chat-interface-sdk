@@ -83,13 +83,6 @@ export function DebugPanel() {
               {apiResponse && <p className="mt-1 whitespace-pre-wrap">{apiResponse}</p>}
             </div>
           )}
-
-          <div className="text-xs">
-            <p>
-              <strong>Environment:</strong>
-            </p>
-            <p>GROQ_API_KEY: {process.env.GROQ_API_KEY ? "Set ✓" : "Not set ✗"}</p>
-          </div>
         </div>
       </CardContent>
     </Card>
