@@ -6,14 +6,15 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "build": "npm run copy-assets",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "export": "next build && next export",
-    "cap:build": "npm run export && npx cap copy",
+    "build:static": "next build && next export && npm run copy-assets",
+    "cap:build": "npm run build:static && npx cap copy",
     "cap:android": "npm run cap:build && npx cap open android",
     "cap:ios": "npm run cap:build && npx cap open ios",
-    "cap:sync": "npm run build && npx cap sync",
+    "cap:sync": "npm run build:static && npx cap sync",
     "cap:add:android": "npx cap add android",
     "cap:add:ios": "npx cap add ios",
     "cap:open:android": "npx cap open android",
@@ -22,7 +23,8 @@
     "cap:run:ios": "npm run cap:sync && npx cap run ios",
     "cap:build:android": "npm run cap:sync && npx cap build android",
     "cap:build:ios": "npm run cap:sync && npx cap build ios",
-    "copy-assets": "mkdir -p www && cp index.html www/ && cp -r assets/* www/ 2>/dev/null || true"
+    "copy-assets": "mkdir -p www && cp index.html www/ && cp -r assets/* www/ 2>/dev/null || true",
+    "vercel-build": "next build && next export"
   },
   "dependencies": {
     "@ai-sdk/groq": "latest",
@@ -51,8 +53,7 @@
     "react-dom": "^19",
     "sharp": "latest",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.7",
-    "zod": "latest"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20.17.6",
