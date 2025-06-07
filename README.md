@@ -17,4 +17,3 @@ Your project is live at:
 
 
 ## How It Works
-
