@@ -10,25 +10,28 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { ModeToggle } from "@/components/mode-toggle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
+interface Message {
+  id: string
+  role: "user" | "assistant"
+  content: string
+}
+
 export default function Chat() {
-  const [messages, setMessages] = useState<Array<{ id: string; role: string; content: string }>>([])
+  const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!input.trim() || isLoading) return
 
-    const userMessage = {
+    const userMessage: Message = {
       id: Date.now().toString(),
       role: "user",
       content: input.trim(),
@@ -39,9 +42,8 @@ export default function Chat() {
     setIsLoading(true)
     setError(null)
 
-    // Simulate AI response for static deployment
     setTimeout(() => {
-      const aiMessage = {
+      const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
         content:
@@ -60,12 +62,8 @@ export default function Chat() {
     <div className="flex flex-col h-screen bg-background">
       <Card className="flex-1 flex flex-col h-full rounded-none border-0 shadow-none">
         <CardHeader className="border-b flex flex-row items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-2">
-            <CardTitle>AI Chat</CardTitle>
-          </div>
-          <div className="flex items-center gap-2">
-            <ModeToggle />
-          </div>
+          <CardTitle>AI Chat</CardTitle>
+          <ModeToggle />
         </CardHeader>
 
         <CardContent className="flex-1 overflow-y-auto p-4">
@@ -73,9 +71,7 @@ export default function Chat() {
             <Alert variant="destructive" className="mb-4">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Error</AlertTitle>
-              <AlertDescription className="flex flex-col gap-2">
-                <p>{error}</p>
-              </AlertDescription>
+              <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
 
@@ -86,14 +82,14 @@ export default function Chat() {
                 <p className="text-sm mt-2">This is a static version - configure API for full functionality.</p>
               </div>
             ) : (
-              messages.map((m) => (
-                <div key={m.id} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+              messages.map((message) => (
+                <div key={message.id} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
                   <div
                     className={`max-w-[80%] rounded-lg p-3 ${
-                      m.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
+                      message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
                     }`}
                   >
-                    {m.content}
+                    {message.content}
                   </div>
                 </div>
               ))
@@ -102,18 +98,13 @@ export default function Chat() {
               <div className="flex justify-start">
                 <div className="max-w-[80%] rounded-lg p-3 bg-muted">
                   <div className="flex space-x-2">
-                    <div
-                      className="w-2 h-2 rounded-full bg-zinc-400 animate-bounce"
-                      style={{ animationDelay: "0ms" }}
-                    ></div>
-                    <div
-                      className="w-2 h-2 rounded-full bg-zinc-400 animate-bounce"
-                      style={{ animationDelay: "150ms" }}
-                    ></div>
-                    <div
-                      className="w-2 h-2 rounded-full bg-zinc-400 animate-bounce"
-                      style={{ animationDelay: "300ms" }}
-                    ></div>
+                    {[0, 150, 300].map((delay) => (
+                      <div
+                        key={delay}
+                        className="w-2 h-2 rounded-full bg-zinc-400 animate-bounce"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>

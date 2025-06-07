@@ -5,37 +5,30 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Code, X } from "lucide-react"
 
+interface ApiStatus {
+  status: "loading" | "success" | "error" | null
+  response: string | null
+}
+
 export function DebugPanel() {
   const [isOpen, setIsOpen] = useState(false)
-  const [apiStatus, setApiStatus] = useState<"loading" | "success" | "error" | null>(null)
-  const [apiResponse, setApiResponse] = useState<string | null>(null)
+  const [apiStatus, setApiStatus] = useState<ApiStatus>({ status: null, response: null })
 
-  const testGroqConnection = async () => {
-    setApiStatus("loading")
-    setApiResponse(null)
+  const testConnection = async () => {
+    setApiStatus({ status: "loading", response: null })
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messages: [{ role: "user", content: "Hello, this is a test message" }],
-        }),
+      // Simulate connection test for static version
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      setApiStatus({
+        status: "success",
+        response: "Static version - API testing not available",
       })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(`API error: ${errorData.error || response.statusText}`)
-      }
-
-      // For streaming responses, we'll just check if the connection works
-      setApiStatus("success")
-      setApiResponse("Connection to Groq API successful!")
     } catch (error) {
-      setApiStatus("error")
-      setApiResponse(`Error: ${error instanceof Error ? error.message : String(error)}`)
+      setApiStatus({
+        status: "error",
+        response: `Error: ${error instanceof Error ? error.message : String(error)}`,
+      })
     }
   }
 
@@ -57,30 +50,28 @@ export function DebugPanel() {
       </CardHeader>
       <CardContent className="py-2">
         <div className="space-y-4">
-          <div>
-            <Button
-              onClick={testGroqConnection}
-              disabled={apiStatus === "loading"}
-              variant="outline"
-              size="sm"
-              className="w-full"
-            >
-              Test Groq API Connection
-            </Button>
-          </div>
+          <Button
+            onClick={testConnection}
+            disabled={apiStatus.status === "loading"}
+            variant="outline"
+            size="sm"
+            className="w-full"
+          >
+            Test Connection
+          </Button>
 
-          {apiStatus && (
+          {apiStatus.status && (
             <div
               className={`text-xs p-2 rounded ${
-                apiStatus === "success"
+                apiStatus.status === "success"
                   ? "bg-green-100 dark:bg-green-900"
-                  : apiStatus === "error"
+                  : apiStatus.status === "error"
                     ? "bg-red-100 dark:bg-red-900"
                     : "bg-yellow-100 dark:bg-yellow-900"
               }`}
             >
-              <p className="font-medium">{apiStatus.toUpperCase()}</p>
-              {apiResponse && <p className="mt-1 whitespace-pre-wrap">{apiResponse}</p>}
+              <p className="font-medium">{apiStatus.status.toUpperCase()}</p>
+              {apiStatus.response && <p className="mt-1 whitespace-pre-wrap">{apiStatus.response}</p>}
             </div>
           )}
         </div>

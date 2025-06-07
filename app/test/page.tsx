@@ -5,16 +5,31 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle, XCircle, Info, AlertTriangle } from "lucide-react"
 
+interface TestDetail {
+  [key: string]: string | boolean
+}
+
+interface TestResult {
+  name: string
+  status: string
+  details: TestDetail
+}
+
+interface TestResults {
+  timestamp: string
+  environment: string
+  tests: TestResult[]
+}
+
 export default function TestPage() {
-  const [testResults, setTestResults] = useState<any>(null)
+  const [testResults, setTestResults] = useState<TestResults | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const runTests = async () => {
     setIsLoading(true)
 
-    // Simulate test results for static deployment
     setTimeout(() => {
-      const results = {
+      const results: TestResults = {
         timestamp: new Date().toISOString(),
         environment: "static",
         tests: [
@@ -74,7 +89,7 @@ export default function TestPage() {
         </Button>
       </div>
 
-      {testResults && (
+      {testResults ? (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -87,7 +102,7 @@ export default function TestPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {testResults.tests.map((test: any, index: number) => (
+              {testResults.tests.map((test, index) => (
                 <div key={index} className={`border rounded-lg p-4 ${getStatusColor(test.status)}`}>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
@@ -104,9 +119,7 @@ export default function TestPage() {
             </div>
           </CardContent>
         </Card>
-      )}
-
-      {!testResults && !isLoading && (
+      ) : (
         <Card>
           <CardContent className="pt-6 text-center">
             <p className="text-gray-500">Click "Run Tests" to test the static deployment</p>
