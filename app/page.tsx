@@ -187,11 +187,11 @@ export default function Chat() {
     return content
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/`(.*?)`/g, '<code class="bg-black/10 dark:bg-white/10 px-1 rounded text-sm">$1</code>')
+      .replace(/`(.*?)`/g, '<code class="bg-green-500/20 text-green-300 px-1 rounded text-sm">$1</code>')
       .replace(/\n/g, "<br>")
       .replace(
         /```([\s\S]*?)```/g,
-        '<pre class="bg-black/10 dark:bg-white/10 p-3 rounded-lg mt-2 mb-2 overflow-x-auto"><code>$1</code></pre>',
+        '<pre class="bg-green-500/10 border border-green-500/30 p-3 rounded-lg mt-2 mb-2 overflow-x-auto"><code class="text-green-300">$1</code></pre>',
       )
   }
 
@@ -203,12 +203,12 @@ export default function Chat() {
   ]
 
   return (
-    <div className="flex flex-col h-screen bg-background text-foreground">
+    <div className="flex flex-col h-screen bg-black text-white">
       {/* API Key Missing Banner */}
       {!apiKey && (
-        <div className="bg-amber-500/90 text-white px-4 py-3 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-red-600 to-red-500 text-white px-4 py-3 flex items-center justify-between border-b border-red-400/30">
           <div className="flex items-center gap-2">
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-5 w-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -216,54 +216,54 @@ export default function Chat() {
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
               ></path>
             </svg>
-            <span>API key not configured. Please set up your API key in settings.</span>
+            <span className="font-medium">⚠️ API key not configured. Please set up your API key in settings.</span>
           </div>
           <button
             onClick={() => {
               setIsSettingsOpen(true)
               setIsApiConfigExpanded(true)
             }}
-            className="bg-white text-amber-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-white/90"
+            className="bg-white text-red-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-100 transition-all hover-glow"
           >
-            Configure
+            Configure Now
           </button>
         </div>
       )}
 
       {/* Enhanced Header */}
-      <div className="glass border-b border-border/50 flex items-center justify-between p-4 flex-shrink-0 backdrop-blur-md">
+      <div className="glass-dark border-b border-green-500/30 flex items-center justify-between p-4 flex-shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center animate-glow">
+            <svg className="h-6 w-6 text-black font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
+                strokeWidth="3"
                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
               ></path>
             </svg>
           </div>
           <div>
-            <h1 className="text-lg font-bold">AI Chat</h1>
+            <h1 className="text-xl font-bold gradient-text">AI CHAT TERMINAL</h1>
             <div className="flex items-center gap-2">
-              <div className={`w-2 h-2 rounded-full ${apiKey ? "bg-green-500 animate-pulse" : "bg-gray-400"}`}></div>
-              <span className="text-xs text-muted-foreground">{apiKey ? "Connected" : "Disconnected"}</span>
+              <div className={`w-2 h-2 rounded-full ${apiKey ? "bg-green-400 animate-pulse" : "bg-red-400"}`}></div>
+              <span className="text-xs text-green-400 font-mono">{apiKey ? "● CONNECTED" : "● DISCONNECTED"}</span>
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {/* Message Counter */}
           {messages.length > 0 && (
-            <div className="px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground">
-              {messages.length} message{messages.length !== 1 ? "s" : ""}
+            <div className="px-3 py-1 bg-green-500/20 border border-green-500/30 rounded-full text-xs text-green-400 font-mono">
+              {messages.length} MSG{messages.length !== 1 ? "S" : ""}
             </div>
           )}
           {/* Settings Button */}
           <button
             onClick={() => setIsSettingsOpen(true)}
-            className="p-2 border border-border rounded-lg hover:bg-accent transition-all"
+            className="p-2 border border-green-500/30 rounded-lg hover:bg-green-500/10 transition-all hover-glow neon-border"
           >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-5 w-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="3"></circle>
               <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path>
             </svg>
@@ -276,17 +276,16 @@ export default function Chat() {
       {/* Enhanced Chat Messages */}
       <div
         ref={chatContainerRef}
-        className="flex-1 overflow-y-auto relative"
+        className="flex-1 overflow-y-auto relative cyber-grid"
         style={{
-          background: `radial-gradient(circle at 1px 1px, hsl(var(--foreground) / 0.05) 1px, transparent 0)`,
-          backgroundSize: "20px 20px",
+          background: "radial-gradient(circle at center, rgba(34, 197, 94, 0.05) 0%, transparent 70%)",
         }}
       >
         <div className="relative z-10 p-4 space-y-4 min-h-full">
           {messages.length === 0 ? (
-            <div className="text-center py-12 animate-fade-in">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-                <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="text-center py-16 animate-fade-in">
+              <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-3xl mx-auto mb-6 flex items-center justify-center animate-glow">
+                <svg className="h-10 w-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -295,14 +294,22 @@ export default function Chat() {
                   ></path>
                 </svg>
               </div>
-              <h2 className="text-xl font-bold text-foreground mb-2">Welcome to AI Chat!</h2>
-              <p className="text-muted-foreground mb-4">Your intelligent conversation partner</p>
-              <div className="flex flex-wrap justify-center gap-2 text-sm">
-                <span className="px-3 py-1 bg-muted rounded-full">💬 Natural conversations</span>
-                <span className="px-3 py-1 bg-muted rounded-full">🚀 Fast responses</span>
-                <span className="px-3 py-1 bg-muted rounded-full">🔒 Secure</span>
+              <h2 className="text-2xl font-bold gradient-text mb-3">WELCOME TO AI TERMINAL</h2>
+              <p className="text-green-300 mb-6 font-mono">Your advanced AI conversation interface</p>
+              <div className="flex flex-wrap justify-center gap-3 text-sm">
+                <span className="px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-full text-green-400 font-mono">
+                  🤖 NEURAL NETWORK
+                </span>
+                <span className="px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-full text-green-400 font-mono">
+                  ⚡ QUANTUM SPEED
+                </span>
+                <span className="px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-full text-green-400 font-mono">
+                  🔒 ENCRYPTED
+                </span>
               </div>
-              <p className="text-xs text-muted-foreground mt-4">Configure your API key in settings to get started</p>
+              <p className="text-xs text-green-500 mt-6 font-mono animate-pulse">
+                &gt; CONFIGURE API KEY TO INITIALIZE SYSTEM
+              </p>
             </div>
           ) : (
             messages.map((message) => (
@@ -311,14 +318,20 @@ export default function Chat() {
                 className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} animate-fade-in`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl p-4 shadow-sm relative ${
-                    message.role === "user"
-                      ? "bg-primary text-primary-foreground rounded-br-md"
-                      : "bg-muted text-muted-foreground rounded-bl-md"
+                  className={`max-w-[85%] rounded-2xl p-4 shadow-lg relative ${
+                    message.role === "user" ? "bg-message-user rounded-br-md" : "bg-message-assistant rounded-bl-md"
                   }`}
                 >
-                  <div dangerouslySetInnerHTML={{ __html: formatMessageContent(message.content) }} />
-                  <div className={`text-xs mt-2 opacity-70 ${message.role === "user" ? "text-right" : "text-left"}`}>
+                  <div
+                    className={`${message.role === "user" ? "text-white" : "text-white"} font-medium`}
+                    dangerouslySetInnerHTML={{ __html: formatMessageContent(message.content) }}
+                  />
+                  <div
+                    className={`text-xs mt-3 opacity-70 font-mono ${
+                      message.role === "user" ? "text-right text-green-200" : "text-left text-green-400"
+                    }`}
+                  >
+                    {message.role === "user" ? "USER" : "AI"} •{" "}
                     {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   </div>
                 </div>
@@ -328,18 +341,18 @@ export default function Chat() {
 
           {isLoading && (
             <div className="flex justify-start animate-fade-in">
-              <div className="bg-muted text-muted-foreground rounded-2xl rounded-bl-md p-4 max-w-[85%] shadow-sm">
-                <div className="flex items-center gap-2">
+              <div className="bg-message-assistant rounded-2xl rounded-bl-md p-4 max-w-[85%] shadow-lg">
+                <div className="flex items-center gap-3">
                   <div className="flex space-x-1">
                     {[0, 150, 300].map((delay) => (
                       <div
                         key={delay}
-                        className="w-2 h-2 bg-current rounded-full animate-bounce"
+                        className="w-2 h-2 bg-green-400 rounded-full animate-bounce"
                         style={{ animationDelay: `${delay}ms` }}
                       />
                     ))}
                   </div>
-                  <span className="text-xs">AI is thinking...</span>
+                  <span className="text-xs text-green-400 font-mono">AI PROCESSING...</span>
                 </div>
               </div>
             </div>
@@ -352,7 +365,7 @@ export default function Chat() {
       {showScrollButton && (
         <button
           onClick={scrollToBottom}
-          className="fixed bottom-24 right-4 w-12 h-12 bg-primary text-primary-foreground rounded-full shadow-lg hover:scale-110 transition-all z-40"
+          className="fixed bottom-28 right-6 w-14 h-14 bg-gradient-to-br from-green-400 to-green-600 text-black rounded-full shadow-lg hover:scale-110 transition-all z-40 animate-glow hover-glow"
         >
           <svg className="h-6 w-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
@@ -362,36 +375,31 @@ export default function Chat() {
 
       {/* Enhanced Error Display */}
       {error && (
-        <div className="mx-4 mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+        <div className="mx-4 mb-4 p-4 bg-red-900/30 border border-red-500/50 rounded-xl backdrop-blur-sm">
           <div className="flex items-start gap-3">
-            <div className="flex-shrink-0 w-8 h-8 bg-red-100 dark:bg-red-900/40 rounded-full flex items-center justify-center">
-              <svg
-                className="h-4 w-4 text-red-600 dark:text-red-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+            <div className="flex-shrink-0 w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center">
+              <svg className="h-4 w-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="15" y1="9" x2="9" y2="15"></line>
                 <line x1="9" y1="9" x2="15" y2="15"></line>
               </svg>
             </div>
             <div className="flex-1">
-              <h4 className="text-sm font-medium text-red-800 dark:text-red-200">Something went wrong</h4>
-              <p className="text-sm text-red-600 dark:text-red-400 mt-1">{error}</p>
+              <h4 className="text-sm font-bold text-red-300 font-mono">SYSTEM ERROR</h4>
+              <p className="text-sm text-red-400 mt-1 font-mono">{error}</p>
             </div>
             <button
               onClick={() => setError(null)}
-              className="px-3 py-1 bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-200 rounded-lg hover:bg-red-200 dark:hover:bg-red-700 text-sm transition-all"
+              className="px-3 py-1 bg-red-500/20 border border-red-500/30 text-red-300 rounded-lg hover:bg-red-500/30 text-sm transition-all font-mono"
             >
-              Dismiss
+              DISMISS
             </button>
           </div>
         </div>
       )}
 
       {/* Enhanced Input Area */}
-      <div className="glass border-t border-border/50 p-4 flex-shrink-0 backdrop-blur-md">
+      <div className="glass-dark border-t border-green-500/30 p-4 flex-shrink-0">
         <form onSubmit={handleSubmit} className="flex gap-3 items-end">
           <div className="flex-1 relative">
             <textarea
@@ -404,19 +412,19 @@ export default function Chat() {
                   handleSubmit(e as any)
                 }
               }}
-              placeholder={apiKey ? "Type your message..." : "Configure API key in settings..."}
-              className="w-full px-4 py-3 rounded-2xl resize-none focus:outline-none text-base max-h-32 min-h-[48px] bg-background border-2 border-border focus:border-primary"
+              placeholder={apiKey ? "> Enter command..." : "> Configure API key in settings..."}
+              className="w-full px-4 py-3 rounded-2xl resize-none focus:outline-none text-base max-h-32 min-h-[48px] bg-black/50 border-2 border-green-500/30 focus:border-green-400 text-white placeholder-green-500/50 font-mono backdrop-blur-sm"
               rows={1}
               disabled={!apiKey || isLoading}
             />
             {input.length > 0 && (
-              <div className="absolute bottom-1 right-3 text-xs text-muted-foreground">{input.length}/1000</div>
+              <div className="absolute bottom-1 right-3 text-xs text-green-500 font-mono">{input.length}/1000</div>
             )}
           </div>
           <button
             type="submit"
             disabled={!apiKey || isLoading || !input.trim()}
-            className="w-12 h-12 bg-primary text-primary-foreground rounded-2xl flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-all"
+            className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 text-black rounded-2xl flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-all animate-glow hover-glow"
           >
             {isLoading ? (
               <svg className="h-5 w-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -443,7 +451,7 @@ export default function Chat() {
               <button
                 key={index}
                 onClick={() => setInput(action.message)}
-                className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-sm whitespace-nowrap hover:bg-accent transition-all"
+                className="px-3 py-1 bg-green-500/20 border border-green-500/30 text-green-400 rounded-full text-sm whitespace-nowrap hover:bg-green-500/30 transition-all font-mono hover-glow"
               >
                 {action.label}
               </button>
@@ -455,19 +463,19 @@ export default function Chat() {
       {/* Enhanced Settings Panel */}
       {isSettingsOpen && (
         <>
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={() => setIsSettingsOpen(false)} />
-          <div className="fixed inset-x-0 bottom-0 glass border-t border-border/50 z-50 backdrop-blur-md">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40" onClick={() => setIsSettingsOpen(false)} />
+          <div className="fixed inset-x-0 bottom-0 dark-card border-t border-green-500/30 z-50">
             <div className="p-6 space-y-6 max-h-[80vh] overflow-y-auto">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-xl font-bold">Settings</h2>
-                  <p className="text-sm text-muted-foreground">Configure your AI chat experience</p>
+                  <h2 className="text-xl font-bold gradient-text font-mono">SYSTEM SETTINGS</h2>
+                  <p className="text-sm text-green-400 font-mono">Configure AI terminal parameters</p>
                 </div>
                 <button
                   onClick={() => setIsSettingsOpen(false)}
-                  className="p-2 hover:bg-accent rounded-xl transition-all"
+                  className="p-2 hover:bg-green-500/10 rounded-xl transition-all border border-green-500/30 hover-glow"
                 >
-                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                   </svg>
@@ -476,18 +484,18 @@ export default function Chat() {
 
               <div className="space-y-4">
                 {/* API Configuration Section */}
-                <div className="border border-border rounded-xl overflow-hidden">
+                <div className="border border-green-500/30 rounded-xl overflow-hidden bg-black/30 backdrop-blur-sm">
                   {/* Collapsible Header */}
                   <div
                     onClick={() => {
                       setIsApiConfigExpanded(!isApiConfigExpanded)
                       localStorage.setItem("apiConfigExpanded", (!isApiConfigExpanded).toString())
                     }}
-                    className="flex items-center justify-between p-4 bg-muted/30 cursor-pointer hover:bg-muted/50 transition-all"
+                    className="flex items-center justify-between p-4 bg-green-500/10 cursor-pointer hover:bg-green-500/20 transition-all"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <svg className="h-4 w-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                        <svg className="h-4 w-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -497,14 +505,14 @@ export default function Chat() {
                         </svg>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-foreground">API Configuration</h3>
-                        <p className="text-sm text-muted-foreground">Configure your AI provider settings</p>
+                        <h3 className="font-bold text-white font-mono">API CONFIGURATION</h3>
+                        <p className="text-sm text-green-400 font-mono">Neural network connection settings</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className={`w-2 h-2 rounded-full ${apiKey ? "bg-green-500" : "bg-gray-400"}`}></div>
+                      <div className={`w-2 h-2 rounded-full ${apiKey ? "bg-green-400" : "bg-red-400"}`}></div>
                       <svg
-                        className={`h-5 w-5 text-muted-foreground transition-transform ${isApiConfigExpanded ? "rotate-180" : ""}`}
+                        className={`h-5 w-5 text-green-400 transition-transform ${isApiConfigExpanded ? "rotate-180" : ""}`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -516,54 +524,56 @@ export default function Chat() {
 
                   {/* Collapsible Content */}
                   {isApiConfigExpanded && (
-                    <div className="p-4 space-y-4 border-t border-border/50 animate-slide-down">
+                    <div className="p-4 space-y-4 border-t border-green-500/30 animate-slide-down">
                       <div>
-                        <label className="block text-sm font-medium mb-2">API Provider</label>
+                        <label className="block text-sm font-bold mb-2 text-green-400 font-mono">API PROVIDER</label>
                         <select
                           value={selectedAPI}
                           onChange={(e) => setSelectedAPI(e.target.value)}
-                          className="w-full px-4 py-3 rounded-xl text-base bg-background border-2 border-border focus:border-primary focus:outline-none"
+                          className="w-full px-4 py-3 rounded-xl text-base bg-black/50 border-2 border-green-500/30 focus:border-green-400 focus:outline-none text-white font-mono"
                         >
-                          <option value="groq">🚀 Groq (Fast & Free)</option>
-                          <option value="openai">🤖 OpenAI (GPT Models)</option>
-                          <option value="custom">⚙️ Custom API</option>
+                          <option value="groq">🚀 GROQ (FAST & FREE)</option>
+                          <option value="openai">🤖 OPENAI (GPT MODELS)</option>
+                          <option value="custom">⚙️ CUSTOM API</option>
                         </select>
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium mb-2">API Key</label>
+                        <label className="block text-sm font-bold mb-2 text-green-400 font-mono">API KEY</label>
                         <input
                           type="password"
                           value={apiKey}
                           onChange={(e) => setApiKey(e.target.value)}
-                          placeholder="Enter your API key..."
-                          className="w-full px-4 py-3 rounded-xl text-base bg-background border-2 border-border focus:border-primary focus:outline-none"
+                          placeholder="Enter neural network access key..."
+                          className="w-full px-4 py-3 rounded-xl text-base bg-black/50 border-2 border-green-500/30 focus:border-green-400 focus:outline-none text-white font-mono placeholder-green-500/50"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium mb-2">API URL (optional)</label>
+                        <label className="block text-sm font-bold mb-2 text-green-400 font-mono">
+                          API URL (OPTIONAL)
+                        </label>
                         <input
                           type="url"
                           value={apiUrl}
                           onChange={(e) => setApiUrl(e.target.value)}
                           placeholder="https://api.groq.com/openai/v1/chat/completions"
-                          className="w-full px-4 py-3 rounded-xl text-base bg-background border-2 border-border focus:border-primary focus:outline-none"
+                          className="w-full px-4 py-3 rounded-xl text-base bg-black/50 border-2 border-green-500/30 focus:border-green-400 focus:outline-none text-white font-mono placeholder-green-500/50"
                         />
                       </div>
 
                       <div className="flex gap-3">
                         <button
                           onClick={testConnection}
-                          className="flex-1 px-4 py-3 border-2 border-border rounded-xl hover:bg-accent transition-all font-medium"
+                          className="flex-1 px-4 py-3 border-2 border-green-500/30 rounded-xl hover:bg-green-500/10 transition-all font-bold font-mono text-green-400 hover-glow"
                         >
-                          🔗 Test Connection
+                          🔗 TEST CONNECTION
                         </button>
                         <button
                           onClick={saveSettings}
-                          className="flex-1 px-6 py-3 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all font-medium"
+                          className="flex-1 px-6 py-3 bg-gradient-to-r from-green-400 to-green-600 text-black rounded-xl hover:from-green-500 hover:to-green-700 transition-all font-bold font-mono hover-glow"
                         >
-                          💾 Save
+                          💾 SAVE CONFIG
                         </button>
                       </div>
                     </div>
@@ -572,12 +582,12 @@ export default function Chat() {
 
                 {/* Chat Actions Section */}
                 <div className="space-y-3">
-                  <h3 className="font-semibold text-foreground">Chat Actions</h3>
+                  <h3 className="font-bold text-white font-mono">TERMINAL ACTIONS</h3>
                   <button
                     onClick={clearChat}
-                    className="w-full px-4 py-3 border-2 border-destructive text-destructive rounded-xl hover:bg-destructive/10 transition-all font-medium"
+                    className="w-full px-4 py-3 border-2 border-red-500/30 text-red-400 rounded-xl hover:bg-red-500/10 transition-all font-bold font-mono hover-glow"
                   >
-                    🗑️ Clear Chat
+                    🗑️ CLEAR TERMINAL
                   </button>
                 </div>
               </div>
