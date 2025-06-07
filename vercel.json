@@ -1,10 +1,9 @@
 {
-  "version": 1,
+  "version": 2,
   "buildCommand": "npm run vercel-build",
   "outputDirectory": "out",
   "installCommand": "npm install",
   "framework": null,
-  "functions": {},
   "routes": [
     {
       "src": "/(.*)",
