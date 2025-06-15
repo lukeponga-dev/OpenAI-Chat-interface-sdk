@@ -83,7 +83,7 @@ export default function ChatPage() {
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: apiProvider === "groq" ? "llama-3.1-8b-instant" : "gpt-3.5-turbo" ,
+          model: apiProvider === "groq" ? "llama-3.1-8b-instant" : "gpt-3.5-turbo",
           messages: [...messages, userMessage].map((msg) => ({
             role: msg.role,
             content: msg.content,
@@ -93,7 +93,7 @@ export default function ChatPage() {
         }),
       })
 
-      if (!resresponse.ok) {
+      if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
         throw new Error(errorData.error?.message || `HTTP ${response.status}`)
       }
