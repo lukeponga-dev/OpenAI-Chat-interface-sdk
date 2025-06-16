@@ -36,7 +36,7 @@ export default function ChatPage() {
   // Load settings from localStorage
   useEffect(() => {
     const savedApiKey =
-      "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"
+      "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"
     setApiKey(savedApiKey)
     const savedProvider = localStorage.getItem("apiProvider") || "groq"
     const savedUrl = localStorage.getItem("apiUrl") || "https://api.groq.com/openai/v1/chat/completions"
@@ -83,7 +83,7 @@ export default function ChatPage() {
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: apiProvider === "groq" ? "llama-3.1-8b-instant" : "gpt-3.5-turbo",
+          model: apiProvider === "groq" ? "distil-whisper-large-v3-en" : "gpt-3.5-turbo" ,
           messages: [...messages, userMessage].map((msg) => ({
             role: msg.role,
             content: msg.content,
@@ -93,7 +93,7 @@ export default function ChatPage() {
         }),
       })
 
-      if (!response.ok) {
+      if (!resresponse.ok) {
         const errorData = await response.json().catch(() => ({}))
         throw new Error(errorData.error?.message || `HTTP ${response.status}`)
       }
@@ -153,7 +153,7 @@ export default function ChatPage() {
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: apiProvider === "groq" ? "llama-3.1-8b-instant" : "gpt-3.5-turbo",
+          model: apiProvider === "groq" ? "distil-whisper-large-v3-en" : "gpt-3.5-turbo",
           messages: messages.slice(0, -1).map((msg) => ({
             role: msg.role,
             content: msg.content,
